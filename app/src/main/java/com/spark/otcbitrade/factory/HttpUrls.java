@@ -7,22 +7,25 @@ public class HttpUrls {
      * 主网络请求地址和cas登录地址
      */
     //压测OTC
-    public static String CUR_HOST = "bench.bitpay.com";
-    public static String WEBSOCKET_HOST_AND_PORT = "ws://192.168.2.139:28905/ws";
+//    public static String CUR_HOST = "bench.bitpay.com";
+//    public static String WEBSOCKET_HOST_AND_PORT = "ws://192.168.2.139:28905/ws";
     //泰达OTC
     //public static String CUR_HOST = "hn772.cn";
-    //private static String WEBSOCKET_HOST_AND_PORT = "ws://154.85.102.115:28905/ws";
+    //public static String WEBSOCKET_HOST_AND_PORT = "ws://154.85.102.115:28905/ws";
     //Money OTC
     //public static String CUR_HOST = "money123.vip";
-    //private static String WEBSOCKET_HOST_AND_PORT = "ws://47.244.187.65:28905/ws";
+    //public static String WEBSOCKET_HOST_AND_PORT = "ws://47.244.187.65:28905/ws";
     //希锦OTC
-    //public static String CUR_HOST = "cndpay.top";
-    //private static String WEBSOCKET_HOST_AND_PORT = "ws://45.116.166.215:28905/ws";
+//    public static String CUR_HOST = "bifushangmao.com";
+//    public static String WEBSOCKET_HOST_AND_PORT = "ws://45.116.166.215:28905/ws";
     //合众OTC
-    //public static String CUR_HOST = "otchub.pro";
-    //private static String WEBSOCKET_HOST_AND_PORT = "ws://103.15.107.52:28905/ws";
+    public static String CUR_HOST = "999fit.com";
+    public static String WEBSOCKET_HOST_AND_PORT = "ws://ws.bitotc.999fit.com/ws";
+    //币安OTC
+//    public static String CUR_HOST = "otc.bittoppayment.top";
+//    public static String WEBSOCKET_HOST_AND_PORT = "ws://ws.otc.bittoppayment.top/ws";
 
-    public static final String HOST_LOGIN = "http://cas.www." + CUR_HOST;
+    public static final String HOST_LOGIN = CUR_HOST.contains("bittoppayment.top") ? "http://cas.otc.bittoppayment.top" : "http://cas.www." + CUR_HOST;
     public static final String UC_HOST = "http://api." + CUR_HOST + "/uc";
     public static final String AC_HOST = "http://api." + CUR_HOST + "/ac";
     public static final String OTC_HOST = "http://api." + CUR_HOST + "/otc";
