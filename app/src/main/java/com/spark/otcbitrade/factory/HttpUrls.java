@@ -16,16 +16,18 @@ public class HttpUrls {
     //public static String CUR_HOST = "money123.vip";
     //public static String WEBSOCKET_HOST_AND_PORT = "ws://47.244.187.65:28905/ws";
     //希锦OTC
-//    public static String CUR_HOST = "bifushangmao.com";
-//    public static String WEBSOCKET_HOST_AND_PORT = "ws://45.116.166.215:28905/ws";
+//    public static String CUR_HOST = "otc.cndpay.net";
+//    public static String WEBSOCKET_HOST_AND_PORT = "ws://ws.otc.cndpay.net/ws";
     //合众OTC
-    public static String CUR_HOST = "999fit.com";
-    public static String WEBSOCKET_HOST_AND_PORT = "ws://ws.bitotc.999fit.com/ws";
+//    public static String CUR_HOST = "999fit.com";
+//    public static String WEBSOCKET_HOST_AND_PORT = "ws://ws.bitotc.999fit.com/ws";
     //币安OTC
-//    public static String CUR_HOST = "otc.bittoppayment.top";
-//    public static String WEBSOCKET_HOST_AND_PORT = "ws://ws.otc.bittoppayment.top/ws";
+    public static String CUR_HOST = "otc.bittoppayment.top";
+    public static String WEBSOCKET_HOST_AND_PORT = "ws://ws.otc.bittoppayment.top/ws";
 
-    public static final String HOST_LOGIN = CUR_HOST.contains("bittoppayment.top") ? "http://cas.otc.bittoppayment.top" : "http://cas.www." + CUR_HOST;
+    //    public static final String HOST_LOGIN = "http://cas.www." + CUR_HOST;//通用
+    //    public static final String HOST_LOGIN = "http://cas.otc.cndpay.net";//希锦OTC
+    public static final String HOST_LOGIN = "http://cas.otc.bittoppayment.top";//币安OTC
     public static final String UC_HOST = "http://api." + CUR_HOST + "/uc";
     public static final String AC_HOST = "http://api." + CUR_HOST + "/ac";
     public static final String OTC_HOST = "http://api." + CUR_HOST + "/otc";

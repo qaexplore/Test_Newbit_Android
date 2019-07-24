@@ -11,8 +11,10 @@ import com.spark.otcbitrade.entity.ChatTable;
 import com.spark.otcbitrade.ui.CircleImageView;
 import com.spark.otcbitrade.utils.DateUtils;
 import com.spark.otcbitrade.utils.StringUtils;
+import com.spark.otcbitrade.utils.TimeUtil;
 
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,8 +37,8 @@ public class ChatListAdapter extends BaseQuickAdapter<ChatTable, BaseViewHolder>
         Glide.with(context.getApplicationContext()).load(item.getFromAvatar()).placeholder(R.mipmap.icon_avatar).into((CircleImageView) helper.getView(R.id.ivHeader));
         if (!item.isRead) helper.setVisible(R.id.ivChatTip, true);
         else helper.setVisible(R.id.ivChatTip, false);
-        long currentTime = System.currentTimeMillis();
-        if (currentTime - item.getSendTime() <= 300000) {
+        //long currentTime = System.currentTimeMillis();
+        /*if (currentTime - item.getSendTime() <= 300000) {
             helper.setText(R.id.tvTime, context.getString(R.string.recently));
         } else try {
             if (StringUtils.isNotEmpty(item.getSendTimeStr())) {
@@ -48,6 +50,13 @@ public class ChatListAdapter extends BaseQuickAdapter<ChatTable, BaseViewHolder>
             }
         } catch (ParseException e) {
             e.printStackTrace();
+        }*/
+
+        try {
+            helper.setText(R.id.tvTime, TimeUtil.DateformatTimeForList(new Date(item.getSendTime())));
+        } catch (Exception e) {
+            e.printStackTrace();
+            helper.setText(R.id.tvTime, "");
         }
     }
 }

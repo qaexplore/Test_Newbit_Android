@@ -78,6 +78,12 @@ public class BaseWalletFragment extends BaseTransFragment implements BaseWalletC
     }
 
     @Override
+    protected void loadData() {
+        getWalletList();
+    }
+
+
+    @Override
     protected void setListener() {
         super.setListener();
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -119,10 +125,10 @@ public class BaseWalletFragment extends BaseTransFragment implements BaseWalletC
     @Override
     public void onResume() {
         super.onResume();
-        if (isFirst) {
+        /*if (isFirst) {
             getWalletList();
             isFirst = false;
-        }
+        }*/
     }
 
     @Override
@@ -214,11 +220,11 @@ public class BaseWalletFragment extends BaseTransFragment implements BaseWalletC
         getWalletList();
     }
 
-    @Override
+    /*@Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
             getWalletList();
         }
-    }
+    }*/
 }

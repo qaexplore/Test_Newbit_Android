@@ -24,6 +24,7 @@ import com.spark.otcbitrade.base.BaseTransFragment;
 import com.spark.otcbitrade.entity.User;
 import com.spark.otcbitrade.event.CheckLoginSuccessEvent;
 import com.spark.otcbitrade.ui.CircleImageView;
+import com.spark.otcbitrade.utils.DatabaseUtils;
 import com.spark.otcbitrade.utils.StringUtils;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -65,7 +66,7 @@ public class MyFragment extends BaseTransFragment {
     ImageView ivchatTip;
 
     private User user;
-    boolean hasNew;
+    private DatabaseUtils databaseUtils;
 
     @Override
     protected void initImmersionBar() {
@@ -80,19 +81,20 @@ public class MyFragment extends BaseTransFragment {
     public void onResume() {
         super.onResume();
         if (ivchatTip != null) {
+            boolean hasNew = databaseUtils.getHasNew();
             if (hasNew) ivchatTip.setVisibility(View.VISIBLE);
             else ivchatTip.setVisibility(View.INVISIBLE);
         }
-        loadData();
+//        loadData();
     }
 
-    @Override
+    /*@Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
             loadData();
         }
-    }
+    }*/
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -121,6 +123,7 @@ public class MyFragment extends BaseTransFragment {
 
     @Override
     protected void initData() {
+        databaseUtils = new DatabaseUtils();
     }
 
     @Override
@@ -168,8 +171,6 @@ public class MyFragment extends BaseTransFragment {
                 showActivity(MyOrderActivity.class, null);
                 break;
             case R.id.llMessage:
-                hasNew = false;
-                ivchatTip.setVisibility(View.INVISIBLE);
                 showActivity(ChatListActivity.class, null);
                 break;
         }
@@ -214,7 +215,6 @@ public class MyFragment extends BaseTransFragment {
     }
 
     public void setChatTip(boolean hasNew) {
-        this.hasNew = hasNew;
         if (ivchatTip != null) {
             if (hasNew) ivchatTip.setVisibility(View.VISIBLE);
             else ivchatTip.setVisibility(View.INVISIBLE);

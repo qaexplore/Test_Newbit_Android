@@ -7,8 +7,8 @@ def getDate() {
     return formattedDate
 }
 
-def verName = "1.7.8"
-def versioncode = 77
+def verName = "1.8.2"
+def versioncode = 82
 
 android {
     compileSdkVersion 27
@@ -52,7 +52,7 @@ android {
                 variant.outputs.all { output ->
                     def outputFile = output.outputFile
                     if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                        def fileName = "OTCHub" + verName + ".apk"
+                        def fileName = "币安OTC" + verName + ".apk"
                         //output.outputFile = new File(outputFile.parent, fileName)
                         outputFileName = fileName
                     }
@@ -78,9 +78,9 @@ android {
             //OTC(希锦OTC)
 //            applicationIdSuffix "xijin"
             //OTCHub(合众OTC)
-            applicationIdSuffix "hz"
+//            applicationIdSuffix "hz"
             //币安OTC
-//            applicationIdSuffix "ba"
+            applicationIdSuffix "ba"
         }
     }
 

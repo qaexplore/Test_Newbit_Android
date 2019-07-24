@@ -204,48 +204,6 @@ public class ChatActivity extends BaseActivity implements  ChatContact.View {
         etContent.setText("");
     }
 
-    private void storageData(String response) {
-        ChatEntity chatEntity = gson.fromJson(response, ChatEntity.class);
-        if (chatEntity == null) return;
-        LogUtils.e("chatEntity  " + chatEntity.toString());
-        ChatTable table;
-        hasNew = false;
-        SharedPreferenceInstance.getInstance().saveHasNew(hasNew);
-        list = databaseUtils.findAll();
-        findByOrderList = databaseUtils.findByOrder(chatEntity.getOrderId());
-        if (findByOrderList == null || findByOrderList.size() == 0) {
-            LogUtils.e("初次建立");
-            table = new ChatTable();
-            table.setContent(chatEntity.getContent());
-            table.setFromAvatar(chatEntity.getFromAvatar());
-            table.setNameFrom(chatEntity.getNameTo());
-            table.setNameTo(chatEntity.getNameFrom());
-            table.setUidFrom(chatEntity.getUidTo());
-            table.setUidTo(chatEntity.getUidFrom());
-            table.setOrderId(chatEntity.getOrderId());
-            table.setRead(true);
-            table.setHasNew(false);
-            table.setSendTime(System.currentTimeMillis());
-            databaseUtils.saveChat(table);
-            ChatTipEvent tipEvent = new ChatTipEvent();
-            tipEvent.setHasNew(hasNew);
-            tipEvent.setOrderId(chatEntity.getOrderId());
-            EventBus.getDefault().post(tipEvent);
-            return;
-        } else {
-            table = findByOrderList.get(findByOrderList.size() - 1);
-            table.setContent(chatEntity.getContent());
-            table.setSendTime(System.currentTimeMillis());
-            databaseUtils.update(table);
-            ChatTipEvent tipEvent = new ChatTipEvent();
-            tipEvent.setHasNew(hasNew);
-            tipEvent.setOrderId(chatEntity.getOrderId());
-            EventBus.getDefault().post(tipEvent);
-            LogUtils.e("再次进入");
-            return;
-        }
-    }
-
 
     private void initRvChat() {
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -289,15 +247,14 @@ public class ChatActivity extends BaseActivity implements  ChatContact.View {
         }
     }
 
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getChatEvent(ChatEvent chatEvent) {
         if (chatEvent.getCmd().equals(ISocket.CMD.PUSH_GROUP_CHAT)) {
             ChatEntity chatEntity = gson.fromJson(chatEvent.getResonpce(), ChatEntity.class);
             if (chatEntity.getOrderId().equals(orderDetial.getOrderSn())) {
                 addChatEntity(chatEvent.getResonpce(), ChatEntity.Type.LEFT);
+                storageData(chatEvent.getResonpce());
             }
-        } else {
         }
     }
 
@@ -312,7 +269,6 @@ public class ChatActivity extends BaseActivity implements  ChatContact.View {
 
         }
     }
-
 
     @Override
     public void getHistoryMessageSuccess(List<ChatEntity> entityList) {
@@ -383,24 +339,24 @@ public class ChatActivity extends BaseActivity implements  ChatContact.View {
                             break;
                         case 20039://收到聊天消息
                             //{"content":"哈哈哈","messageType":"1","nameFrom":"1234243","nameTo":"u1559627767899","orderId":"195247908350115840","partitionKey":201906,"sendTime":1560426151273,"uidFrom":"119","uidTo":"126"}
-                            if (isAppOnForeground()) {
+                            /*if (isAppOnForeground()) {
                                 startAlarm(getApplicationContext());
-                            }
-                            ISocket.CMD cmd2 = ISocket.CMD.PUSH_GROUP_CHAT;
-                            showNotice(str);
-                            storageData(str);
-                            ChatEvent chatEvent = new ChatEvent();
-                            chatEvent.setResonpce(str);
-                            chatEvent.setType("left");
-                            chatEvent.setCmd(cmd2);
+                            }*/
+                            //ISocket.CMD cmd2 = ISocket.CMD.PUSH_GROUP_CHAT;
+                            //showNotice(str);
+                            //storageData(str);
+//                            ChatEvent chatEvent = new ChatEvent();
+//                            chatEvent.setResonpce(str);
+//                            chatEvent.setType("left");
+//                            chatEvent.setCmd(cmd2);
                             //EventBus.getDefault().post(chatEvent);
 
-                            if (chatEvent.getCmd().equals(ISocket.CMD.PUSH_GROUP_CHAT)) {
-                                ChatEntity chatEntity = gson.fromJson(chatEvent.getResonpce(), ChatEntity.class);
-                                if (chatEntity.getOrderId().equals(orderDetial.getOrderSn())) {
-                                    addChatEntity(chatEvent.getResonpce(), ChatEntity.Type.LEFT);
-                                }
-                            }
+//                            if (chatEvent.getCmd().equals(ISocket.CMD.PUSH_GROUP_CHAT)) {
+//                                ChatEntity chatEntity = gson.fromJson(chatEvent.getResonpce(), ChatEntity.class);
+//                                if (chatEntity.getOrderId().equals(orderDetial.getOrderSn())) {
+//                                    addChatEntity(chatEvent.getResonpce(), ChatEntity.Type.LEFT);
+//                                }
+//                            }
                             break;
                         default:
                             break;
@@ -492,6 +448,50 @@ public class ChatActivity extends BaseActivity implements  ChatContact.View {
         }
     }
 
+    private void storageData(String response) {
+        ChatEntity chatEntity = gson.fromJson(response, ChatEntity.class);
+        if (chatEntity == null) return;
+        LogUtils.e("chatEntity  " + chatEntity.toString());
+        ChatTable table;
+        hasNew = false;
+        SharedPreferenceInstance.getInstance().saveHasNew(hasNew);
+        list = databaseUtils.findAll();
+        findByOrderList = databaseUtils.findByOrder(chatEntity.getOrderId());
+        if (findByOrderList == null || findByOrderList.size() == 0) {
+            LogUtils.e("初次建立");
+            table = new ChatTable();
+            table.setContent(chatEntity.getContent());
+            table.setFromAvatar(chatEntity.getFromAvatar());
+            table.setNameFrom(chatEntity.getNameTo());
+            table.setNameTo(chatEntity.getNameFrom());
+            table.setUidFrom(chatEntity.getUidTo());
+            table.setUidTo(chatEntity.getUidFrom());
+            table.setOrderId(chatEntity.getOrderId());
+            table.setRead(true);
+            table.setHasNew(false);
+            table.setSendTime(System.currentTimeMillis());
+            databaseUtils.saveChat(table);
+            ChatTipEvent tipEvent = new ChatTipEvent();
+            tipEvent.setHasNew(hasNew);
+            tipEvent.setOrderId(chatEntity.getOrderId());
+            EventBus.getDefault().post(tipEvent);
+            return;
+        } else {
+            table = findByOrderList.get(findByOrderList.size() - 1);
+            table.setContent(chatEntity.getContent());
+            table.setSendTime(System.currentTimeMillis());
+            table.setRead(true);
+            table.setHasNew(false);
+            databaseUtils.update(table);
+            ChatTipEvent tipEvent = new ChatTipEvent();
+            tipEvent.setHasNew(hasNew);
+            tipEvent.setOrderId(chatEntity.getOrderId());
+            EventBus.getDefault().post(tipEvent);
+            LogUtils.e("再次进入");
+            return;
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -500,6 +500,5 @@ public class ChatActivity extends BaseActivity implements  ChatContact.View {
         }
         presenter.destory();
     }
-
 
 }

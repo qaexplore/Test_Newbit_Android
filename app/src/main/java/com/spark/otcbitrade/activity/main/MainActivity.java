@@ -128,12 +128,10 @@ public class MainActivity extends BaseTransFragmentActivity implements MainContr
     private MainContract.Presenter presenter;
     private SettingPresenterImpl settingPresenter;
     private VersionPresenter versionPresenter;
-
     private long lastPressTime = 0;
     private int type; // 1 去买币  2 去卖币
     private LinearLayout[] lls;
     private Gson gson = new Gson();
-    private boolean hasNew = false;
     public static double rate = 1.0;
     public static boolean isAgain = false;
     public static List<Favorite> mFavorte = new ArrayList<>();
@@ -177,8 +175,6 @@ public class MainActivity extends BaseTransFragmentActivity implements MainContr
             }
             EventBus.getDefault().post(new SocketMessage(GlobalConstant.CODE_CHAT, ISocket.CMD.SUBSCRIBE_GROUP_CHAT.getCode(), buildGetBodyJson().toString().getBytes()));
         }
-        hasNew = SharedPreferenceInstance.getInstance().getHasNew();
-        SharedPreferenceInstance.getInstance().saveHasNew(false);
         if (!MyApplication.getApp().isLogin() && currencyListAll != null && currencyListAll.size() != 0) { // 退出登录后 刷新展示未登录状态的数据
             notLoginCurrencies();
         }
@@ -569,9 +565,9 @@ public class MainActivity extends BaseTransFragmentActivity implements MainContr
     }
 
     @Override
-    public void checkVersionSuccess(String response) {
-        if (StringUtils.isNotEmpty(response)) {
-            VisionEntity entity = new Gson().fromJson(response, VisionEntity.class);
+    public void checkVersionSuccess(String obj) {
+        if (StringUtils.isNotEmpty(obj)) {
+            VisionEntity entity = new Gson().fromJson(obj, VisionEntity.class);
             if (entity != null && entity.getData() != null && (AppUtils.compareVersion(entity.getData().getVersion(), AppUtils.getVersionName(activity)) == 1)) {
                 if (StringUtils.isNotEmpty(entity.getData().getUrl())) {
                     showVersionDialog(entity);

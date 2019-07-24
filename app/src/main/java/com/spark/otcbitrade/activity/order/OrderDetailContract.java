@@ -5,6 +5,7 @@ import com.spark.library.otc.model.MemberPayType;
 import com.spark.library.otc.model.OrderDetailVo;
 import com.spark.library.otc.model.OrderPaymentDto;
 import com.spark.otcbitrade.base.BaseContract;
+import com.spark.otcbitrade.entity.HttpErrorEntity;
 
 import java.util.List;
 
@@ -13,32 +14,6 @@ import java.util.List;
  */
 
 public interface OrderDetailContract {
-//    interface View extends Contract.BaseView<Presenter> {
-//
-//        void orderDetailSuccess(OrderDetial obj);
-//
-//        void payDoneSuccess(String obj);
-//
-//        void cancleSuccess(String obj);
-//
-//        void releaseSuccess(String obj);
-//
-//        void downloadSuccess(Response obj);
-//
-//        void doPostFail(Integer code, String toastMessage);
-//    }
-//
-//    interface Presenter extends Contract.BasePresenter {
-//        void orderDetail(HashMap<String, String> params);
-//
-//        void payDone(HashMap<String, String> params);
-//
-//        void cancle(HashMap<String, String> params);
-//
-//        void release(HashMap<String, String> params);
-//
-//        void doDownload(String url);
-//    }
 
     interface View extends BaseContract.BaseView {
 
@@ -54,6 +29,9 @@ public interface OrderDetailContract {
 
         void queryOrderPayTypeUsingGETSuccess(List<MemberPayType> obj);
 
+        void findOrderAchiveDetailUsingGETFail(HttpErrorEntity httpErrorEntity);
+
+        void findOrderInTransitDetailUsingGETFail(HttpErrorEntity httpErrorEntity);
     }
 
     interface Presenter extends BaseContract.BasePresenter {
